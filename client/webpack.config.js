@@ -2,15 +2,17 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',  // Entry point of your React app
+  mode: 'development',
+  entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'dist'),  // Output directory
-    filename: 'bundle.js',  // Output bundle file
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
   },
+  devtool: 'source-map',
   module: {
     rules: [
       {
-        test: /\.jsx?$/,  // Regex to match .js and .jsx files
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -19,18 +21,28 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.css$/,  // This rule processes your CSS files
+        use: ['style-loader', 'css-loader'],  // Add the necessary loaders
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        type: 'asset/resource',
+      },
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx'],  // Allow importing .js and .jsx without specifying the extension
+    extensions: ['.js', '.jsx'],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html',  // HTML template file
+      template: './public/index.html',
     }),
   ],
   devServer: {
-    static: path.join(__dirname, 'dist'),  // Serve files from the dist folder
-    port: 3000,  // Development server port
+    static: path.join(__dirname, 'dist'),
+    port: 3000,
+    open: true,
+    hot: true,
   },
 };
