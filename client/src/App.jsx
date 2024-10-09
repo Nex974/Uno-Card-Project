@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import NavBar from './mainpage/NavBar';
 import StartMenu from './mainpage/StartMenu';
+import Game from './mainpage/Game';
+import Shop from './mainpage/Shop';
 import Footer from './mainpage/Footer';
-import Shop from './mainpage/Shop'
+
 function App() {
-  const [inGame, setInGame] = useState(false);
-  const [openShop, toggleShop] = useState(true);
+  const inGame = useSelector((state) => state.inGame);
+  const openShop = useSelector((state) => state.openShop);
+  const dispatch = useDispatch();
 
   return (
     <div>
