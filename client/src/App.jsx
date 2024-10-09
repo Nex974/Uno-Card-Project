@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-
 import NavBar from './mainpage/NavBar';
-import CharacterSelect from './mainpage/CharacterSelect';
 import StartMenu from './mainpage/StartMenu';
 import Footer from './mainpage/Footer';
+import Shop from './mainpage/Shop'
 function App() {
-  const [data, setData] = useState('');
+  const [inGame, setInGame] = useState(false);
+  const [openShop, toggleShop] = useState(true);
 
   return (
     <div>
       <NavBar />
-      <CharacterSelect />
-      <StartMenu />
+      {inGame ? <Game /> : <StartMenu />}
+      {openShop ? <Shop /> : null}
       <Footer />
     </div>
   );

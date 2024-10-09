@@ -12,3 +12,6 @@ root.render(
     <App />
   </Provider>,
 )
+
+//npm run start (edno/client/)
+//nodemon index js (edno/)
