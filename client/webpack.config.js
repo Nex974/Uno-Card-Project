@@ -23,7 +23,7 @@ module.exports = {
       },
       {
         test: /\.css$/,  // This rule processes your CSS files
-        use: ['style-loader', 'css-loader'],  // Add the necessary loaders
+        use: ['style-loader', 'css-loader', 'postcss-loader'],  // Add the necessary loaders
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
