@@ -11,8 +11,8 @@ function StartMenu() {
   return (
 <div className="grid place-items-center min-h-screen">
 <div className="flex font-sans">
-<div class="flex-none w-56 relative">
-  <img src={carImage} alt="" class="absolute inset-0 w-full h-full object-cover rounded-lg" loading="lazy" />
+<div className="flex-none w-56 relative">
+  <img src={carImage} alt="" className="absolute inset-0 w-full h-full object-cover rounded-lg" loading="lazy" />
 </div>
   <form className="flex-auto p-6">
     <div className="flex flex-wrap">

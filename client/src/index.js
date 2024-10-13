@@ -14,4 +14,3 @@ root.render(
 )
 
 //npm run start (edno/client/)
-//nodemon index js (edno/)
