@@ -1,7 +1,6 @@
-@tailwind base;
-@tailwind components;
-
-/* Global reset and styling */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 * {
   margin: 0;
   padding: 0;
@@ -166,5 +165,3 @@ h1 {
     font-size: 2.5rem;
   }
 }
-
-@tailwind utilities;
