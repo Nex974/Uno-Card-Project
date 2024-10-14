@@ -2,14 +2,14 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import './styles/global.css';
-import NavBar from './mainpage/NavBar';
+import NavBar from './global/NavBar.jsx';
 import StartMenu from './mainpage/StartMenu';
-import Game from './mainpage/Game';
-import Shop from './mainpage/Shop';
-import Footer from './mainpage/Footer';
-import CreateGame from './mainpage/CreateGame';
-import GameLobby from './mainpage/GameLobby';
-import JoinLobby from './mainpage/JoinLobby';
+import Game from './game/Game.jsx';
+import Shop from './shop/Shop.jsx';
+import Footer from './global/Footer.jsx';
+import CreateGame from './lobby/CreateGame.jsx';
+import GameLobby from './lobby/GameLobby.jsx';
+import JoinLobby from './lobby/JoinLobby.jsx';
 import ErrorBoundary from './ErrorBoundary.jsx';
 
 function App() {
