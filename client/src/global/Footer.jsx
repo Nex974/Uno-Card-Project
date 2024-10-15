@@ -2,7 +2,7 @@ import React from 'react';
 
 function Footer() {
     return (
-      <footer className="fixed bottom-0 left-0 w-full bg-gray-800 text-white text-center bg-sky-400 py-2">
+      <footer className="fixed bottom-0 left-0 w-full text-white text-center bg-sky-400 py-2">
         <div className="mx-auto max-w-7xl sm:px-4 md:flex md:items-center md:justify-between lg:px-6">
             <nav className="-mx-3 -my-1 flex flex-wrap justify-center order-2" aria-label="Footer">
                 <div className="px-3">

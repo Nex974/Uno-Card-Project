@@ -19,7 +19,6 @@ function App() {
     <ErrorBoundary>
       <Router>
         <div>
-
           <NavBar />
 
           <Routes>
@@ -29,12 +28,10 @@ function App() {
             <Route path="/join-game" element={<JoinLobby />} />
             <Route path="/game/:gameId" element={<Game />} />
           </Routes>
-          
 
           {openShop ? <Shop /> : null}
 
           <Footer />
-
         </div>
       </Router>
     </ErrorBoundary>
