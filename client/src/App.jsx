@@ -13,7 +13,7 @@ import JoinLobby from './lobby/JoinLobby.jsx';
 import ErrorBoundary from './ErrorBoundary.jsx';
 
 function App() {
-  const openShop = useSelector((state) => state.openShop);
+  const openShop = useSelector((state) => state.game.openShop);
 
   return (
     <ErrorBoundary>
@@ -29,9 +29,10 @@ function App() {
             <Route path="/game/:gameId" element={<Game />} />
           </Routes>
 
+          <Footer />
+
           {openShop ? <Shop /> : null}
 
-          <Footer />
         </div>
       </Router>
     </ErrorBoundary>
