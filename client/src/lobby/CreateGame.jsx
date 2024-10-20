@@ -7,9 +7,9 @@ function CreateGame() {
           <form className="space-y-4">
             {/* Lobby Name */}
             <div>
-              <label htmlFor="lobbyName" className="block text-sm font-medium text-gray-700">
+              <a className="block text-sm font-medium text-gray-700">
                 Lobby Name
-              </label>
+              </a>
               <input
                 type="text"
                 id="lobbyName"
@@ -19,40 +19,26 @@ function CreateGame() {
               />
             </div>
     
-            {/* Lobby ID */}
-            <div>   
-              <label htmlFor="lobbyId" className="block text-sm font-medium text-gray-700">
-                Lobby ID
-              </label>
-              <input
-                type="text"
-                id="lobbyId"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-purple-600"
-                placeholder="Enter Lobby ID"
-                required
-              />
-            </div>
-    
             {/* Round Time */}
             <div>
-              <label htmlFor="roundTime" className="block text-sm font-medium text-gray-700">
-                Round Time (in seconds)
-              </label>
+              <a className="block text-sm font-medium text-gray-700">
+                Time per turn (5-15 seconds)
+              </a>
               <input
                 type="number"
-                id="roundTime"
+                id="turnTime"
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-purple-600"
-                min="10"
-                max="120"
+                min="5"
+                max="15"
                 required
               />
             </div>
     
             {/* Max Players */}
             <div>
-              <label htmlFor="maxPlayers" className="block text-sm font-medium text-gray-700">
+              <a className="block text-sm font-medium text-gray-700">
                 Max Players
-              </label>
+              </a>
               <input
                 type="number"
                 id="maxPlayers"
