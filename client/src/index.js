@@ -13,4 +13,4 @@ root.render(
   </Provider>,
 )
 
-//npm run start (edno/client/)
+//npm run start in root
