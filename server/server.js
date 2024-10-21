@@ -8,10 +8,6 @@ app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'client', 'public')));
 
-app.get('/api/data', (req, res) => {
-  res.json({ message: 'Hello from the server!' });
-});
-
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'client', 'public', 'index.html'));
 });
