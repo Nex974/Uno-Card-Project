@@ -2,7 +2,7 @@ const openLobbies = []; // Array to keep track of open lobbies
 
 // Create a new lobby
 function createLobby(lobbyName, maxPlayers, playerId) {
-  const lobbyId = Math.random().toString(36).substr(2, 9); // Generate unique lobby ID
+  const lobbyId = Math.random().toString(36); // Generate unique lobby ID
   openLobbies.push({ lobbyId, lobbyName, maxPlayers, players: [playerId] });
   return lobbyId;
 }

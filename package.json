@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"npm run start-server\" \"npm run start-client\"",
-    "start-server": "node server.js",
+    "start": "concurrently \"npm run start-server\" \"npm run start-client\" \"npm run start-ws\"",
+    "start-server": "node server/server.js",
+    "start-ws": "node server/index.js", 
     "start-client": "webpack serve --config webpack.config.js --mode development --open",
     "build": "webpack --config webpack.config.js"
   },

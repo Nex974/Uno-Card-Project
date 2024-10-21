@@ -1,53 +1,48 @@
-const { createLobby, joinLobby, notifyLobbyPlayers, getOpenLobbies } = require('./lobby');
-const { startGame, playCard } = require('./game');
+const openLobbies = []; // Array to store open lobbies
 
 function handleWebSocketConnection(ws) {
-  console.log('New player connected');
-
   ws.on('message', (message) => {
-    const parsedMessage = JSON.parse(message);
-    handleGameMessage(ws, parsedMessage);
-  });
+    const data = JSON.parse(message);
 
-  ws.on('close', () => {
-    console.log('Player disconnected');
-    handlePlayerDisconnection(ws);
+    switch (data.type) {
+      case 'CREATE_LOBBY':
+        const { lobbyName, turnTime, maxPlayers } = data.payload;
+        const gameId = generateGameId(); // Generate Game ID
+        const newLobby = {
+          gameId,
+          lobbyName,
+          turnTime,
+          maxPlayers,
+          players: [],
+        };
+
+        openLobbies.push(newLobby); // Save lobby to openLobbies array
+
+        // Notify all players in the lobby
+        notifyLobbyPlayers(newLobby.gameId, {
+          type: 'LOBBY_CREATED',
+          payload: newLobby,
+        });
+        break;
+
+      // Handle other message types as necessary
+      default:
+        console.log('Unknown message type:', data.type);
+    }
   });
 }
 
-function handleGameMessage(ws, message) {
-  const { action, lobbyName, maxPlayers, playerId } = message;
-
-  switch (action) {
-    case 'createLobby':
-      const lobbyId = createLobby(lobbyName, maxPlayers, playerId);
-      ws.send(JSON.stringify({ action: 'lobbyCreated', lobbyId }));
-      break;
-
-    case 'joinLobby':
-      const joinResult = joinLobby(message.lobbyId, playerId);
-      if (joinResult.success) {
-        ws.send(JSON.stringify({ action: 'joinedLobby', lobbyId: message.lobbyId }));
-        notifyLobbyPlayers(message.lobbyId, { action: 'playerJoined', playerId });
-      } else {
-        ws.send(JSON.stringify({ action: 'error', message: joinResult.message }));
-      }
-      break;
-
-    // Handle game actions
-    case 'startGame':
-      startGame(message.gameId);
-      break;
-
-    default:
-      ws.send(JSON.stringify({ action: 'error', message: 'Unknown action' }));
+function notifyLobbyPlayers(lobbyId, message) {
+  const lobby = openLobbies.find(lobby => lobby.gameId === lobbyId);
+  if (lobby) {
+    lobby.players.forEach(player => {
+      player.ws.send(JSON.stringify(message));
+    });
   }
 }
 
-function handlePlayerDisconnection(ws) {
-  // Handle player disconnection logic here
+function generateGameId() {
+  return Math.random().toString(36).substring(2, 10); // Generates a random string
 }
 
-module.exports = {
-  handleWebSocketConnection,
-};
+module.exports = { handleWebSocketConnection };
