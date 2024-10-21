@@ -6,21 +6,23 @@ const gameSlice = createSlice({
   initialState: {
     inGame: false,
     openShop: false,
+    webSocket: false,
   },
   reducers: {
     toggleShop: (state) => {
-      // Redux Toolkit allows direct state mutation because it uses Immer under the hood
       state.openShop = !state.openShop;
     },
     setInGame: (state, action) => {
-      // Example for setting the in-game state
-      state.inGame = action.payload;
+      state.inGame = !state.inGame;
     },
+    checkWebSocket: (state, action) => {
+      state.webSocket = !state.webSocket
+    }
   },
 });
 
 // Export actions for use in components
-export const { toggleShop, setInGame } = gameSlice.actions;
+export const { toggleShop, setInGame, webSocket } = gameSlice.actions;
 
 // Create store
 const store = configureStore({
