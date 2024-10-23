@@ -1,33 +1,34 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 
-// Create a slice for game state
-const gameSlice = createSlice({
-  name: 'game', // Slice name
+const menuSlice = createSlice({
+  name: 'menu',
   initialState: {
     inGame: false,
     openShop: false,
-    webSocket: false,
+    openLobbies: {},
+    webSocket: null,
   },
   reducers: {
     toggleShop: (state) => {
       state.openShop = !state.openShop;
     },
     setInGame: (state, action) => {
-      state.inGame = !state.inGame;
+      state.inGame = action.payload;
     },
     checkWebSocket: (state, action) => {
-      state.webSocket = !state.webSocket
+      state.webSocket = action.payload;
+    },
+    setOpenLobbies: (state, action) => {
+      state.openLobbies = action.payload;
     }
   },
 });
 
-// Export actions for use in components
-export const { toggleShop, setInGame, webSocket } = gameSlice.actions;
+export const { toggleShop, setInGame, checkWebSocket, setOpenLobbies } = menuSlice.actions;
 
-// Create store
 const store = configureStore({
   reducer: {
-    game: gameSlice.reducer, // You can add more slices here if needed
+    menu: menuSlice.reducer,
   },
 });
 

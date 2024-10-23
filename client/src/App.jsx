@@ -1,4 +1,3 @@
-// App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -15,7 +14,7 @@ import ErrorBoundary from './ErrorBoundary.jsx';
 import WebSocketProvider from './WebSocketProvider.jsx';
 
 function App() {
-  const openShop = useSelector((state) => state.game.openShop);
+  const openShop = useSelector((state) => state.menu.openShop);
 
   return (
     <ErrorBoundary>

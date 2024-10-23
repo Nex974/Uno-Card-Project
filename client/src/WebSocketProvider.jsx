@@ -1,41 +1,59 @@
-// WebSocketProvider.jsx
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { checkWebSocket } from './store';
 
-const WebSocketContext = createContext();
+const WebSocketContext = createContext(null);
 
-const WebSocketProvider = ({ children }) => {
-  const [socket, setSocket] = useState(null);
+export const WebSocketProvider = ({ children }) => {
+  const dispatch = useDispatch();
   const [isConnected, setIsConnected] = useState(false);
-  const [error, setError] = useState(null);
+  const socketRef = useRef(null);
 
   useEffect(() => {
-    const newSocket = new WebSocket('ws://localhost:3001');
+    const socket = new WebSocket('ws://localhost:3001');
+    socketRef.current = socket;
 
-    newSocket.onopen = () => {
-      console.log('WebSocket connection established');
+    socket.onopen = () => {
+      console.log('WebSocket connected');
       setIsConnected(true);
+      dispatch(checkWebSocket(true));
     };
 
-    newSocket.onclose = () => {
-      console.log('WebSocket connection closed');
+    socket.onclose = () => {
+      console.log('WebSocket disconnected');
       setIsConnected(false);
+      dispatch(checkWebSocket(false));
     };
 
-    newSocket.onerror = (event) => {
-      console.error('WebSocket error:', event);
-      setError('WebSocket connection error');
+    socket.onerror = (error) => {
+      console.error('WebSocket error:', error);
     };
 
-    setSocket(newSocket);
+    // Listen for messages from the server
+    socket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
 
-    // Cleanup on component unmount
+      switch (message.type) {
+        case 'UPDATE_LOBBIES':
+          console.log('Updated open lobbies:', message.payload); // Log the openLobbies array
+          break;
+
+        default:
+          console.log('Unknown message type:', message.type);
+      }
+    };
+
     return () => {
-      newSocket.close();
+      if (socketRef.current) {
+        socketRef.current.close();
+        setIsConnected(false);
+        dispatch(checkWebSocket(false));
+      }
     };
-  }, []);
+  }, [dispatch]);
 
   return (
-    <WebSocketContext.Provider value={{ socket, isConnected, error }}>
+    <WebSocketContext.Provider value={socketRef.current}>
       {children}
     </WebSocketContext.Provider>
   );
