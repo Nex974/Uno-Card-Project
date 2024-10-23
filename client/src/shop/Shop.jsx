@@ -1,10 +1,9 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { toggleShop } from '../store';
 
 function Shop() {
     const dispatch = useDispatch();
-    const openShop = useSelector((state) => state.game.openShop);
 
     function handleShopToggle() {
         dispatch(toggleShop())
