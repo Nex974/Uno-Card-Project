@@ -8,7 +8,7 @@ function handleWebSocketConnection(ws) {
     clients.add(ws);
 
     ws.on('close', () => {
-      clients.delete(ws); // Remove the client from the set on disconnect
+      clients.delete(ws);
     });
 
     switch (data.type) {
@@ -24,24 +24,32 @@ function handleWebSocketConnection(ws) {
         };
 
         openLobbies.push(newLobby);
-        console.log('Current open lobbies:', openLobbies); // Log on server side
-
-        // Broadcast updated openLobbies to all connected clients
-        const availableLobbies = JSON.stringify({
-          type: 'UPDATE_LOBBIES',
-          payload: openLobbies,
-        });
-
-        clients.forEach((client) => {
-          if (client.readyState === WebSocket.OPEN) {
-            client.send(availableLobbies);
-          }
-        });
+        fetchLobbies()
+        console.log('Current open lobbies:', openLobbies);
         break;
+
+
+      case 'FETCH_LOBBIES':
+        fetchLobbies()
+        break;
+        
 
       default:
         console.log('Unknown message type:', data.type);
         return;
+    }
+  });
+}
+
+function fetchLobbies() {
+  const availableLobbies = JSON.stringify({
+    type: 'UPDATE_LOBBIES',
+    payload: openLobbies,
+  });
+
+  clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(availableLobbies);
     }
   });
 }

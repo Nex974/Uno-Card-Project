@@ -1,11 +1,9 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useWebSocket } from '../WebSocketProvider';
 
 function CreateGame() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const socket = useWebSocket();
   const isConnected = socket && socket.readyState === WebSocket.OPEN;
 

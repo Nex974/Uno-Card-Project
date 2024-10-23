@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setOpenLobbies, fetchOpenLobbies } from '../store'; // Import the fetch action
+import { setOpenLobbies } from '../store';
 import { useWebSocket } from '../WebSocketProvider';
 
 function JoinLobby() {
@@ -10,9 +10,7 @@ function JoinLobby() {
   const openLobbies = useSelector((state) => state.menu.openLobbies);
 
   useEffect(() => {
-
-    if (socket && isConnected) {
-      // Set up WebSocket message handling
+    if (socket) {
       socket.onmessage = (event) => {
         const message = JSON.parse(event.data);
         if (message.type === 'UPDATE_LOBBIES') {
@@ -20,7 +18,18 @@ function JoinLobby() {
           console.log('Lobbies updated:', message.payload);
         }
       };
+
+      if (isConnected) {
+        const fetchLobbiesMessage = JSON.stringify({ type: 'FETCH_LOBBIES' });
+        socket.send(fetchLobbiesMessage);
+      }
     }
+
+    return () => {
+      if (socket) {
+        socket.onmessage = null;
+      }
+    };
   }, [socket, isConnected, dispatch]);
 
   return (
