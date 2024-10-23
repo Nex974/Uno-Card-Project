@@ -12,13 +12,16 @@ function StartMenu() {
     setPlayerName(event.target.value);
   }
 
-  function createGame() {
+  function createGame(event) {
+    event.preventDefault();
     navigate('/create-game')
   }
-  function joinGame() {
+  function joinGame(event) {
+    event.preventDefault();
     navigate('/join-game')
   }
-  function homeScreen() {
+  function homeScreen(event) {
+    event.preventDefault();
     navigate('/')
   }
 
