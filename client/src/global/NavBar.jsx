@@ -6,16 +6,21 @@ import { toggleShop } from '../store';
 function NavBar () {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const openShop = useSelector((state) => state.game.openShop);
+  const openShop = useSelector((state) => state.menu.openShop);
+  
+  function handleSubmit(event) {
+    event.preventDefault();
+    navigate('/')
+  }
 
-  const handleOpenShop = () => {
+  function handleOpenShop() {
     dispatch(toggleShop());
   };
 
     return (
 <nav className="border-gray-200 dark:bg-gray-900 dark:border-gray-700">
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-    <button onClick={() => navigate('/')} className="!flex !items-center !space-x-3 !rtl:space-x-reverse !bg-transparent !p-0">
+    <button onClick={handleSubmit} className="!flex !items-center !space-x-3 !rtl:space-x-reverse !bg-transparent !p-0">
         <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">edno</span>
     </button>
