@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { setPlayerName } from '../store';
 import CharacterSelect from './CharacterSelect';
 
 function StartMenu() {
-  const [playerName, setPlayerName] = useState("");
+  const playerName = useSelector((state) => state.menu.playerName)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   function handleInputChange(event) {
-    setPlayerName(event.target.value);
+    dispatch(setPlayerName(event.target.value));
   }
 
   function createGame(event) {
@@ -24,7 +25,7 @@ function StartMenu() {
     event.preventDefault();
     navigate('/')
   }
-
+  
   return (
     <div className="grid place-items-center min-h-screen" style={{ marginTop: '-40px' }}>
       <div className="flex font-sans">
@@ -34,7 +35,7 @@ function StartMenu() {
         <form className="flex-auto px-9">
           <div className="flex flex-wrap">
             <div onClick={homeScreen} className="w-full flex-none mt-2 mb-6 order-1 text-5xl font-bold text-violet-600">
-              edno
+              Dos
             </div>
           </div>
           <div className="mt-5 mb-1 pb-6">

@@ -7,6 +7,8 @@ const menuSlice = createSlice({
     openShop: false,
     openLobbies: {},
     webSocket: null,
+    lobbyExists: false,
+    playerName: "",
   },
   reducers: {
     toggleShop: (state) => {
@@ -20,11 +22,17 @@ const menuSlice = createSlice({
     },
     setOpenLobbies: (state, action) => {
       state.openLobbies = action.payload;
+    },
+    setLobbyExists: (state) => {
+      state.lobbyExists = !state.lobbyExists;
+    },
+    setPlayerName: (state, action) => {
+      state.playerName = action.payload;
     }
   },
 });
 
-export const { toggleShop, setInGame, checkWebSocket, setOpenLobbies } = menuSlice.actions;
+export const { toggleShop, setInGame, checkWebSocket, setOpenLobbies, setLobbyExists, setPlayerName } = menuSlice.actions;
 
 const store = configureStore({
   reducer: {
