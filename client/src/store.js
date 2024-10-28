@@ -1,9 +1,8 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
-
+// check openLobbies's gameId value, store in redux global state an array of all gameId
 const menuSlice = createSlice({
   name: 'menu',
   initialState: {
-    inGame: false,
     openShop: false,
     openLobbies: {},
     webSocket: null,
@@ -13,9 +12,6 @@ const menuSlice = createSlice({
   reducers: {
     toggleShop: (state) => {
       state.openShop = !state.openShop;
-    },
-    setInGame: (state, action) => {
-      state.inGame = action.payload;
     },
     checkWebSocket: (state, action) => {
       state.webSocket = action.payload;
@@ -32,7 +28,7 @@ const menuSlice = createSlice({
   },
 });
 
-export const { toggleShop, setInGame, checkWebSocket, setOpenLobbies, setLobbyExists, setPlayerName } = menuSlice.actions;
+export const { toggleShop, checkWebSocket, setOpenLobbies, setLobbyExists, setPlayerName } = menuSlice.actions;
 
 const store = configureStore({
   reducer: {
