@@ -24,7 +24,6 @@ function handleWebSocketConnection(ws) {
         };
 
         openLobbies.push(newLobby);
-        fetchLobbies()
         console.log('Current open lobbies:', openLobbies);
         break;
 
