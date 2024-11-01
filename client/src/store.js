@@ -6,7 +6,6 @@ const menuSlice = createSlice({
     openShop: false,
     openLobbies: {},
     webSocket: null,
-    lobbyExists: false,
     playerName: "",
   },
   reducers: {
