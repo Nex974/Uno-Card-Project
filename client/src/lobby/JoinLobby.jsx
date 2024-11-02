@@ -25,8 +25,8 @@ function JoinLobby() {
     return (
         <div className="flex flex-col items-center min-h-screen bg-gray-900 p-6">
             <h1 className="text-4xl font-bold text-white mb-6">Join a Lobby</h1>
-            <div className="w-full max-w-2xl bg-gray-800 rounded-lg shadow-lg p-4">
-                <div className="max-h-96 overflow-y-auto space-y-4">
+            <div className="w-full max-w-2xl bg-gray-800 rounded-lg shadow-lg p-4 ">
+                <div className="max-h-96 overflow-y-auto space-y-4 custom-scrollbar">
                     <ul className="space-y-4">
                         {openLobbies.length > 0 ? (
                             openLobbies.map((lobby) => (
