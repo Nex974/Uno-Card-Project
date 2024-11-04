@@ -3,9 +3,10 @@ const openLobbies = [];
 const clients = new Set();
 
 function handleWebSocketConnection(ws) {
+  clients.add(ws);
+
   ws.on('message', (message) => {
     const data = JSON.parse(message);
-    clients.add(ws);
 
     ws.on('close', () => {
       clients.delete(ws);
@@ -13,31 +14,42 @@ function handleWebSocketConnection(ws) {
 
     switch (data.type) {
       case 'CREATE_LOBBY':
-        const { lobbyName, turnTime, maxPlayers } = data.payload;
-        const gameId = generateGameId();
-        const newLobby = {
-          gameId,
-          lobbyName,
-          turnTime,
-          maxPlayers,
-          players: [],
-        };
-
-        openLobbies.push(newLobby);
-        console.log('Current open lobbies:', openLobbies);
+        createLobby(ws, data); //pass ws for the redirectToLobby message
         break;
-
 
       case 'FETCH_LOBBIES':
-        fetchLobbies()
+        fetchLobbies();
         break;
-        
 
       default:
         console.log('Unknown message type:', data.type);
         return;
     }
   });
+}
+
+function createLobby(ws, data) {
+  const { lobbyName, turnTime, maxPlayers } = data.payload;
+  const gameId = generateGameId();
+  const newLobby = {
+    gameId,
+    lobbyName,
+    turnTime,
+    maxPlayers,
+    players: [],
+  };
+
+  openLobbies.push(newLobby);
+  console.log('Current open lobbies:', openLobbies);
+  redirectToLobby(ws, gameId);
+}
+
+function redirectToLobby(ws, gameId) {
+  const sendId = JSON.stringify({
+    type: 'LOBBY_CREATED',
+    payload: { gameId },
+  });
+  ws.send(sendId);
 }
 
 function fetchLobbies() {

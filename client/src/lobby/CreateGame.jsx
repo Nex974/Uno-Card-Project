@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { useWebSocket } from '../WebSocketProvider';
 
 function CreateGame() {
   const navigate = useNavigate();
   const socket = useWebSocket();
   const isConnected = socket && socket.readyState === WebSocket.OPEN;
+  const openLobbies = useSelector((state) => state.menu.openLobbies);
+
+  useEffect(() => {
+    if (socket) {
+      socket.onmessage = (event) => {
+        const message = JSON.parse(event.data);
+
+        if (message.type === 'LOBBY_CREATED') {
+          const { gameId } = message.payload;
+          navigate(`/game-lobby/${gameId}`);
+        }
+      };
+
+      return () => {
+        socket.onmessage = null;
+      };
+    }
+  }, [socket, navigate]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -20,8 +39,6 @@ function CreateGame() {
         },
       };
       socket.send(JSON.stringify(lobbyData));
-      navigate('/join-game')
-      
     } else {
       console.error('WebSocket is not connected');
     }
