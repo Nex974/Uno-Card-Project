@@ -24,6 +24,7 @@ function GameLobby() {
     useEffect(() => {
         const exists = Object.values(openLobbies).some((lobby) => lobby.gameId === gameId);
         setLobbyExists(exists);
+        console.log(gameId)
     }, [gameId, openLobbies]);
 
     if (!lobbyExists) { 
@@ -31,9 +32,33 @@ function GameLobby() {
     }
 
     return (
-        <div>
-            <h1 className="text-3xl font-bold text-center">Game ID: {gameId}</h1>
-            {/* Game logic and UI go here */}
+      <div className="grid place-items-center min-h-screen" style={{ marginTop: '-75px' }}>
+            {/* Lobby Box */}
+            <div className="relative w-80 h-80 border-4 border-gray-700 rounded-lg bg-gray-800" >
+                
+                {/* Player Slots */}
+                <div className="absolute top-0 left-0 w-32 h-32 bg-gray-700 rounded-md flex items-center justify-center m-4">
+                    <span className="text-lg font-semibold">Player 1</span>
+                </div>
+                
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gray-700 rounded-md flex items-center justify-center m-4">
+                    <span className="text-lg font-semibold">Player 2</span>
+                </div>
+                
+                <div className="absolute bottom-0 left-0 w-32 h-32 bg-gray-700 rounded-md flex items-center justify-center m-4">
+                    <span className="text-lg font-semibold">Player 3</span>
+                </div>
+                
+                <div className="absolute bottom-0 right-0 w-32 h-32 bg-gray-700 rounded-md flex items-center justify-center m-4">
+                    <span className="text-lg font-semibold">Player 4</span>
+                </div>
+
+                {/* Start Button*/}
+                <button className="absolute w-20 h-20 bg-blue-600 hover:bg-blue-700 rounded-full text-white font-bold flex items-center justify-center z-20"
+                    style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                    Start
+                </button>
+            </div>
         </div>
     );
 }
