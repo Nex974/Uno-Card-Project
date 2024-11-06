@@ -1,40 +1,47 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import socket from '../utils/socket.js'
+import socket from '../utils/socket.js';
 
 function CreateGame() {
   const navigate = useNavigate(); 
   const isConnected = useSelector((state) => state.menu.webSocket);
 
   useEffect(() => {
-    socket.onmessage = (event) => {
+    const handleMessage = (event) => {
       const message = JSON.parse(event.data);
 
-      if (message.type === 'LOBBY_CREATED') {
+      if (message.action === 'LOBBY_CREATED') {
         const { gameId } = message.payload;
         navigate(`/game-lobby/${gameId}`);
       }
     };
 
-      return () => {
-        socket.onmessage = null;
-      };
-  }, [navigate]);
+    if (isConnected) {
+      socket.onmessage = handleMessage;
+    }
 
+    return () => {
+      socket.onmessage = null;
+    };
+  }, [navigate, isConnected]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     const lobbyData = {
-      type: 'CREATE_LOBBY',
+      type: 'LOBBY',
+      action: 'CREATE_LOBBY',
       payload: {
         lobbyName: event.target.lobbyName.value,
         turnTime: parseInt(event.target.turnTime.value, 10),
         maxPlayers: parseInt(event.target.maxPlayers.value, 10),
-        }};
+      }
+    };
 
-    socket.send(JSON.stringify(lobbyData));
+    if (isConnected) {
+      socket.send(JSON.stringify(lobbyData));
+    }
   };
 
   return (
