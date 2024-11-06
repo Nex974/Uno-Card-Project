@@ -15,12 +15,10 @@ function lobbySockets(ws) {
 
     switch (data.type) {
       case 'CREATE_LOBBY':
-        console.log("creating lobby")
         createLobby(ws, data);
         break;
 
       case 'FETCH_LOBBIES':
-        console.log("fetching lobbies")
         fetchLobbies();
         break;
 
