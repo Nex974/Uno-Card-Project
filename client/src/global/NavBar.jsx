@@ -7,6 +7,7 @@ function NavBar () {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const openShop = useSelector((state) => state.menu.openShop);
+  const userName = useSelector((state) => state.menu.playerName) 
   
   function handleSubmit(event) {
     event.preventDefault();
@@ -20,10 +21,14 @@ function NavBar () {
     return (
 <nav className="border-gray-200 dark:bg-gray-900 dark:border-gray-700">
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    {/* Logo */}
     <button onClick={handleSubmit} className="!flex !items-center !space-x-3 !rtl:space-x-reverse !bg-transparent !p-0">
         <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">edno</span>
     </button>
+    {/* Username */}
+    <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Hello, {userName ? userName : 'Player'}!</span>
+    {/* Shop */}
       <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
         <li>
         <button

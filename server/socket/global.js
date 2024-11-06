@@ -2,10 +2,11 @@ const WebSocket = require('ws');
 const openLobbies = [];
 const clients = new Set();
 
-function handleWebSocketConnection(ws) {
+function lobbySockets(ws) {
   clients.add(ws);
 
   ws.on('message', (message) => {
+    console.log("received message..")
     const data = JSON.parse(message);
 
     ws.on('close', () => {
@@ -14,10 +15,12 @@ function handleWebSocketConnection(ws) {
 
     switch (data.type) {
       case 'CREATE_LOBBY':
-        createLobby(ws, data); //pass ws for the redirectToLobby message
+        console.log("creating lobby")
+        createLobby(ws, data);
         break;
 
       case 'FETCH_LOBBIES':
+        console.log("fetching lobbies")
         fetchLobbies();
         break;
 
@@ -69,4 +72,4 @@ function generateGameId() {
   return Math.random().toString(36).substring(2, 10);
 }
 
-module.exports = { handleWebSocketConnection };
+module.exports = { lobbySockets };

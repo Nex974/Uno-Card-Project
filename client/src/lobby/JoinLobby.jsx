@@ -1,26 +1,23 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOpenLobbies } from '../store';
-import { useWebSocket } from '../WebSocketProvider';
 import { useNavigate } from 'react-router-dom';
-import fetchLobbies from '../utils/UpdateLobbies';
+import fetchLobbies from '../utils/updateLobbies.js';
+import socket from '../utils/socket.js'
 
 function JoinLobby() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const socket = useWebSocket();
-    const isConnected = useSelector((state) => state.menu.webSocket);
     const openLobbies = useSelector((state) => state.menu.openLobbies);
+    const isConnected = useSelector((state) => state.menu.webSocket);
 
     useEffect(() => {
-        if (socket) {
-            fetchLobbies(socket, dispatch, isConnected, setOpenLobbies);
+        fetchLobbies(socket, isConnected, dispatch, setOpenLobbies);
 
-            return () => {
-                socket.onmessage = null;
-            };
-        }
-    }, [socket, isConnected, dispatch]);
+        return () => {
+            socket.onmessage = null;
+        };
+    }, [isConnected, dispatch]);
 
     return (
         <div className="flex flex-col items-center min-h-screen bg-gray-900 p-6">

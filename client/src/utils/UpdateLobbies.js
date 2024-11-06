@@ -1,4 +1,4 @@
-function fetchLobbies(socket, dispatch, isConnected, setOpenLobbies) {
+function fetchLobbies(socket, isConnected, dispatch, setOpenLobbies) {
     if (socket) {
         const handleMessage = (event) => {
             const message = JSON.parse(event.data);
@@ -13,7 +13,6 @@ function fetchLobbies(socket, dispatch, isConnected, setOpenLobbies) {
         if (isConnected) {
             const fetchLobbiesMessage = JSON.stringify({ type: 'FETCH_LOBBIES' });
             socket.send(fetchLobbiesMessage);
-            console.log('Fetch lobbies message sent:', fetchLobbiesMessage);
         }
     } else {
         console.error('WebSocket is not initialized.');

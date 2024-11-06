@@ -2,29 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOpenLobbies } from '../store';
-import { useWebSocket } from '../WebSocketProvider';
-import fetchLobbies from '../utils/UpdateLobbies';
+import fetchLobbies from '../utils/updateLobbies.js';
 import WrongLobby from './WrongLobby.jsx';
+import socket from '../utils/socket.js'
 
 function GameLobby() {
     const { gameId } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const socket = useWebSocket();
     const isConnected = useSelector((state) => state.menu.webSocket);
     const openLobbies = useSelector((state) => state.menu.openLobbies);
     const [lobbyExists, setLobbyExists] = useState(false);
 
     useEffect(() => {
-        if (socket) {
-            fetchLobbies(socket, dispatch, isConnected, setOpenLobbies);
-        }
-    }, [socket, dispatch]);
+        fetchLobbies(socket, isConnected, dispatch, setOpenLobbies);
+    }, [isConnected, dispatch]);
 
     useEffect(() => {
-        const exists = Object.values(openLobbies).some((lobby) => lobby.gameId === gameId);
+        //checks if lobby with this gameId exists, returns true/false
+        const exists = Object.values(openLobbies).some((lobby) => lobby.gameId === gameId); 
         setLobbyExists(exists);
-        console.log(gameId)
     }, [gameId, openLobbies]);
 
     if (!lobbyExists) { 
@@ -55,7 +52,9 @@ function GameLobby() {
 
                 {/* Start Button*/}
                 <button className="absolute w-20 h-20 bg-blue-600 hover:bg-blue-700 rounded-full text-white font-bold flex items-center justify-center z-20"
-                    style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                    style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+                    disabled={!isConnected}
+                    >
                     Start
                 </button>
             </div>

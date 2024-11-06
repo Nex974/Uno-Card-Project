@@ -1,47 +1,40 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useWebSocket } from '../WebSocketProvider';
+import socket from '../utils/socket.js'
 
 function CreateGame() {
-  const navigate = useNavigate();
-  const socket = useWebSocket();
-  const isConnected = socket && socket.readyState === WebSocket.OPEN;
-  const openLobbies = useSelector((state) => state.menu.openLobbies);
+  const navigate = useNavigate(); 
+  const isConnected = useSelector((state) => state.menu.webSocket);
 
   useEffect(() => {
-    if (socket) {
-      socket.onmessage = (event) => {
-        const message = JSON.parse(event.data);
+    socket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
 
-        if (message.type === 'LOBBY_CREATED') {
-          const { gameId } = message.payload;
-          navigate(`/game-lobby/${gameId}`);
-        }
-      };
+      if (message.type === 'LOBBY_CREATED') {
+        const { gameId } = message.payload;
+        navigate(`/game-lobby/${gameId}`);
+      }
+    };
 
       return () => {
         socket.onmessage = null;
       };
-    }
-  }, [socket, navigate]);
+  }, [navigate]);
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (isConnected) {
-      const lobbyData = {
-        type: 'CREATE_LOBBY',
-        payload: {
-          lobbyName: event.target.lobbyName.value,
-          turnTime: parseInt(event.target.turnTime.value, 10),
-          maxPlayers: parseInt(event.target.maxPlayers.value, 10),
-        },
-      };
-      socket.send(JSON.stringify(lobbyData));
-    } else {
-      console.error('WebSocket is not connected');
-    }
+    const lobbyData = {
+      type: 'CREATE_LOBBY',
+      payload: {
+        lobbyName: event.target.lobbyName.value,
+        turnTime: parseInt(event.target.turnTime.value, 10),
+        maxPlayers: parseInt(event.target.maxPlayers.value, 10),
+        }};
+
+    socket.send(JSON.stringify(lobbyData));
   };
 
   return (
@@ -88,7 +81,7 @@ function CreateGame() {
             className="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-500 focus:outline-none focus:ring focus:ring-purple-600"
             disabled={!isConnected}
           >
-            {isConnected ? "Create Game" : "Loading..."}
+            Create Game
           </button>
         </div>
       </form>

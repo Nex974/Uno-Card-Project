@@ -1,5 +1,4 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
-// check openLobbies's gameId value, store in redux global state an array of all gameId
 const menuSlice = createSlice({
   name: 'menu',
   initialState: {
