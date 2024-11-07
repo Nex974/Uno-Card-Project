@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOpenLobbies } from '../store';
-import fetchLobbies from '../utils/updateLobbies.js';
+import fetchLobbies from '../utils/fetchLobbies.js';
 import WrongLobby from './WrongLobby.jsx';
 import socket from '../utils/socket.js'
 
@@ -19,10 +19,13 @@ function GameLobby() {
     }, [isConnected, dispatch]);
 
     useEffect(() => {
-        //checks if lobby with this gameId exists, returns true/false
         const exists = Object.values(openLobbies).some((lobby) => lobby.gameId === gameId); 
         setLobbyExists(exists);
     }, [gameId, openLobbies]);
+
+    useEffect(() => {
+        
+        }, []);
 
     if (!lobbyExists) { 
         return <WrongLobby />;

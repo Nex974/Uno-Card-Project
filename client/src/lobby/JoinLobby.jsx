@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOpenLobbies } from '../store';
 import { useNavigate } from 'react-router-dom';
-import fetchLobbies from '../utils/updateLobbies.js';
+import fetchLobbies from '../utils/fetchLobbies.js';
 import socket from '../utils/socket.js'
 
 function JoinLobby() {

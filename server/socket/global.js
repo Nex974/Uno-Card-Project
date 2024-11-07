@@ -59,11 +59,6 @@ function fetchLobbies(ws) {
   if (ws.readyState === WebSocket.OPEN) {
     ws.send(availableLobbies);
   }
-  clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(availableLobbies);
-    }
-  });
 }
 
 function generateGameId() {
